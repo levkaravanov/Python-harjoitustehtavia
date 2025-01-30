@@ -1,0 +1,1 @@
+sp = input("Syötä sukupuoli (nainen/mies):").lower()

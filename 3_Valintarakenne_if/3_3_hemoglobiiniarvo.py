@@ -1,4 +1,4 @@
-sukupuoli = input("Syötä sukupuoli (nainen/mies):")
+sukupuoli = input("Syötä sukupuoli (nainen/mies):").lower()
 if sukupuoli == "nainen" or sukupuoli == "mies":
     hemoglobiiniarvo = float(input("Syötä hemoglobiiniarvo (g/l):"))
 
