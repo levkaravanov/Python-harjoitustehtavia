@@ -8,9 +8,9 @@ print("Tietokone on valinnut satunnaisen luvun väliltä 1–10. Yritä arvata s
 while True:
     userNumber = int(input("Anna luku: "))
     if number == userNumber:
-        print("Oikein! Onneksi olkoon!")
         break
     elif number < userNumber:
         print("Liian suuri arvaus, yritä uudestaan!")
     else:
         print("Liian pieni arvaus, yritä uudestaan!")
+print("Oikein! Onneksi olkoon!")

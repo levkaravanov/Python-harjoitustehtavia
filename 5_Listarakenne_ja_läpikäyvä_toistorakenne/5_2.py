@@ -5,9 +5,7 @@ while True:
     if luku == "":
         break
     numbers.append(int(luku))
-
 numbers.sort(reverse=True)
-
 if numbers:
     for x in numbers[:5]:
         print(x)
