@@ -1,7 +1,7 @@
 luku = int(input("Anna kokonaisluku: "))
 
 if luku < 2:
-    print("Luku ei ole alkuluku.")
+    print(f"{luku} ei ole alkuluku.")
 else:
     alkuluku = True
     for i in range (2, int(luku ** 0.5) + 1):
@@ -10,6 +10,6 @@ else:
             break
 
     if alkuluku:
-        print("Luku on alkuluku.")
+        print(f"{luku} on alkuluku.")
     else:
-        print("Luku ei ole alkuluku.")
+        print(f"{luku} ei ole alkuluku.")
