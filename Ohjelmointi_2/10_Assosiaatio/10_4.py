@@ -3,14 +3,15 @@ from tabulate import tabulate
 
 
 class Auto:
-    def __init__(self, rekisteritunnus, huippunopeus):
+    def __init__(self, rekisteritunnus, huippunopeus, tämänhetkinen_nopeus=0, matka=0):
         self.rekisteritunnus = rekisteritunnus
         self.huippunopeus = huippunopeus
-        self.tämänhetkinen_nopeus = 0
-        self.matka = 0
+        self.tämänhetkinen_nopeus = tämänhetkinen_nopeus
+        self.matka = matka
 
     def kiihdytä(self, nopeus):
         uusi_nopeus = self.tämänhetkinen_nopeus + nopeus
+
         if uusi_nopeus > self.huippunopeus:
             self.tämänhetkinen_nopeus = self.huippunopeus
         elif uusi_nopeus < 0:
@@ -19,47 +20,57 @@ class Auto:
             self.tämänhetkinen_nopeus = uusi_nopeus
 
     def kulje(self, aika):
-        self.matka += self.tämänhetkinen_nopeus * aika
-
+        matka = self.tämänhetkinen_nopeus * aika
+        self.matka += matka
 
 class Kilpailu:
-    def __init__(self, nimi, pituus_km, autot):
+    def __init__(self, nimi, kilometrimäärä, autonmäärä):
         self.nimi = nimi
-        self.pituus_km = pituus_km
-        self.autot = autot
+        self.kilometrimäärä = kilometrimäärä
+        self.autonmäärä = autonmäärä
+        self.autot = []
+        self.voittaja = None
+        self.race_finished = False
 
-    def tunti_kuluu(self):
+        for i in range(self.autonmäärä):
+            rekisteritunnus = f"ABC-{i + 1}"
+            huippunopeus = random.randint(100, 200)
+            auto = Auto(rekisteritunnus, huippunopeus)
+            self.autot.append(auto)
+
+    def tunti_kuluu(self, aika):
         for auto in self.autot:
-            nopeusmuutos = random.randint(-10, 15)  # Случайное изменение скорости
-            auto.kiihdytä(nopeusmuutos)
-            auto.kulje(1)
+            nopeus = random.randint(-10, 15)
+            auto.kiihdytä(nopeus)
+            auto.kulje(aika)
+
 
     def tulosta_tilanne(self):
-        data = [[auto.rekisteritunnus, auto.huippunopeus, auto.tämänhetkinen_nopeus, auto.matka] for auto in self.autot]
-        headers = ["Rekisteritunnus", "Huippunopeus (km/h)", "Nopeus nyt (km/h)", "Matka (km)"]
-        print("\n🚗 KILPAILUN TILANNE 🚗\n")
+        data = [[auto.rekisteritunnus, auto.huippunopeus, auto.matka] for auto in self.autot]
+        headers = ["Rekisteritunnus", "Huippunopeus (km/h)", "Matka (km)"]
+        print("\n🏁 KILPAILUN TULOKSET 🏁\n")
         print(tabulate(data, headers=headers, tablefmt="grid"))
 
     def kilpailu_ohi(self):
-        return any(auto.matka >= self.pituus_km for auto in self.autot)
-
-    def aja_kilpailu(self):
-        tunti = 0
-        while not self.kilpailu_ohi():
-            self.tunti_kuluu()
-            tunti += 1
-
-            if tunti % 10 == 0 or self.kilpailu_ohi():
-                self.tulosta_tilanne()
-
-        voittaja = max(self.autot, key=lambda auto: auto.matka)
-        print("\n🏁 KILPAILU ON PÄÄTTYNYT! 🏁\n")
-        print(f"🥇 Voittaja: Auto {voittaja.rekisteritunnus}!")
-        print(f"Huippunopeus: {voittaja.huippunopeus} km/h")
-        print(f"Kokonaismatka: {voittaja.matka:.2f} km\n")
+        for auto in self.autot:
+            if auto.matka >= self.kilometrimäärä:
+                self.voittaja = max(self.autot, key=lambda x: x.matka)
+                return True
+        return False
 
 
-autot = [Auto(f"ABC-{i+1}", random.randint(100, 200)) for i in range(10)]
+k = Kilpailu("Suuri romuralli", 8000, 10)
 
-kilpailu = Kilpailu("Suuri romuralli", 8000, autot)
-kilpailu.aja_kilpailu()
+tunti = 0
+while not k.kilpailu_ohi():
+    k.tunti_kuluu(1)
+    tunti += 1
+    if tunti % 10 == 0:
+        k.tulosta_tilanne()
+
+k.tulosta_tilanne()
+
+voittaja = k.voittaja
+print(f"\n🥇 Auto {voittaja.rekisteritunnus} on voittaja!")
+print(f"Huippunopeus: {voittaja.huippunopeus} km/h")
+print(f"Kokonaismatka: {voittaja.matka:.2f} km\n")
