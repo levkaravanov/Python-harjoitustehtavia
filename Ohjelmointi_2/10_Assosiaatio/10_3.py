@@ -51,7 +51,7 @@ class Talo:
         for hissi in self.hissit:
             hissi.siirry_kerrokseen(self.alin_kerros)
 
-t = Talo(3, 20, 10)
+t = Talo(1, 20, 10)
 
 t.aja_hissiä(2, 5)
 t.aja_hissiä(3, 5)

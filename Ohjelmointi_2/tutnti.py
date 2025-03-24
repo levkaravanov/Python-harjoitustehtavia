@@ -1,42 +1,43 @@
-class Koira:
-    def __init__(self, nimi, syntymävuosi, haukahdus="Vuh-vuh"):
-        self.nimi = nimi
-        self.syntymävuosi = syntymävuosi
-        self.haukahdus = haukahdus
+class Työntekijä:
 
-    def hauku(self, kerrat):
-        for i in range(kerrat):
-            print(self.nimi + " haukkuu: " + self.haukahdus)
-        return
+    työntekijöiden_lukumäärä = 0
 
-class Hoitola:
-    def __init__(self):
-        self.koirat = []
+    def __init__(self, etunimi, sukunimi):
+        Työntekijä.työntekijöiden_lukumäärä = Työntekijä.työntekijöiden_lukumäärä + 1
+        self.työntekijänumero = Työntekijä.työntekijöiden_lukumäärä
+        self.etunimi = etunimi
+        self.sukunimi = sukunimi
 
-    def koira_sisään(self, koira):
-        self.koirat.append(koira)
-        print(koira.nimi + " kirjattu sisään")
-        return
+    def tulosta_tiedot(self):
+        print(f"{self.työntekijänumero}: {self.etunimi} {self.sukunimi}")
 
-    def koira_ulos(self, koira):
-        self.koirat.remove(koira)
-        print(koira.nimi + " kirjattu ulos")
-        return
+class Tuntipalkkainen(Työntekijä):
 
-    def tervehdi_koiria(self):
-        for koira in self.koirat:
-            koira.hauku(1)
+    def __init__(self, etunimi, sukunimi, tuntipalkka):
+        self.tuntipalkka = tuntipalkka
+        super().__init__(etunimi, sukunimi)
 
-# Pääohjelma
+    def tulosta_tiedot(self):
+        super().tulosta_tiedot()
+        print(f" Tuntipalkka: {self.tuntipalkka}")
 
-koira1 = Koira("Muro", 2018)
-koira2 = Koira("Rekku", 2022, "Viu viu viu")
+class Kuukausipalkkainen(Työntekijä):
 
-hoitola = Hoitola()
+    def __init__(self, etunimi, sukunimi, kuukausipalkka):
+        self.kuukausipalkka = kuukausipalkka
+        super().__init__(etunimi, sukunimi)
 
-hoitola.koira_sisään(koira1)
-hoitola.koira_sisään(koira2)
-hoitola.tervehdi_koiria()
+    def tulosta_tiedot(self):
+        super().tulosta_tiedot()
+        print(f" Kuukausipalkka: {self.kuukausipalkka}")
 
-hoitola.koira_ulos(koira1)
-hoitola.tervehdi_koiria()
+
+työntekijät = []
+työntekijät.append(Tuntipalkkainen("Viivi", "Virta", 12.35))
+työntekijät.append(Kuukausipalkkainen("Ahmed", "Habib", 2750))
+työntekijät.append(Työntekijä("Pekka", "Puro"))
+työntekijät.append(Tuntipalkkainen("Olga", "Glebova", 14.92))
+työntekijät.append(Kuukausipalkkainen("Lev", "Karavanov", 5200))
+
+for t in työntekijät:
+    t.tulosta_tiedot()

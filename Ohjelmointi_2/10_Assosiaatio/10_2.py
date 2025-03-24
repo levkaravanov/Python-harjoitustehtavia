@@ -49,6 +49,7 @@ class Talo:
 t = Talo(1, 20, 10)
 
 t.aja_hissiä(2, 5)
+t.aja_hissiä(1, 5)
 t.aja_hissiä(3, 5)
 t.aja_hissiä(2, 1)
 t.aja_hissiä(100, 1)
